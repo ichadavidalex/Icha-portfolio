@@ -42,8 +42,8 @@
   a{color:inherit; text-decoration:none;}
   img{max-width:100%; display:block;}
   ul{list-style:none;}
-  section{position:relative; padding:120px 8vw;}
-  @media(max-width:768px){ section{padding:80px 6vw;} }
+  section{position:relative; padding:88px 8vw;}
+  @media(max-width:768px){ section{padding:60px 6vw;} }
 
   .eyebrow{
     font-family:'League Spartan', sans-serif;
@@ -152,19 +152,23 @@
   }
   nav a:not(.btn):hover::after{width:100%;}
   .nav-cta{padding:12px 26px; font-size:0.9rem;}
-  .menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer;}
-  .menu-toggle span{width:24px; height:2px; background:var(--forest);}
+  .menu-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; position:relative; z-index:1002;}
+  .menu-toggle span{width:24px; height:2px; background:var(--forest); transition:transform .3s var(--ease), opacity .2s ease, background .3s ease;}
 
   @media(max-width:860px){
     nav ul{
       position:fixed; top:0; right:-100%; height:100vh; width:72%;
       background:var(--forest); flex-direction:column; justify-content:center;
-      transition:right .5s var(--ease); gap:34px;
+      transition:right .5s var(--ease); gap:34px; z-index:1000;
     }
     nav ul.open{right:0;}
     nav a:not(.btn){color:var(--cream); font-size:1.1rem;}
     .nav-cta{background:var(--mint); color:var(--forest-deep);}
     .menu-toggle{display:flex; z-index:1001;}
+    .menu-toggle.open span{background:var(--cream);}
+    .menu-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .menu-toggle.open span:nth-child(2){opacity:0;}
+    .menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
   }
 
   /* ---------- Hero ---------- */
@@ -273,7 +277,8 @@
 
   @media(max-width:900px){
     .about-grid{grid-template-columns:1fr;}
-    .about-photo-wrap{position:static; max-width:340px; margin:0 auto;}
+    .about-photo-wrap{position:static; max-width:340px; margin:0 auto; order:2;}
+    .about-bio{order:1;}
     .fb-1{top:4%; right:2%;}
     .fb-2{top:46%; left:2%;}
     .fb-3{bottom:4%; right:2%;}
@@ -282,7 +287,7 @@
   }
 
   /* ---------- Section headers ---------- */
-  .section-head{max-width:680px; margin-bottom:56px;}
+  .section-head{max-width:680px; margin-bottom:44px;}
   .section-head h2{font-size:clamp(1.8rem,3vw,2.5rem);}
   .section-head .sub{color:var(--muted); margin-top:16px; font-size:1.05rem;}
 
@@ -315,7 +320,7 @@
 
   /* ---------- Tools marquee ---------- */
   .tools-section{
-    background:var(--forest); padding:100px 0;
+    background:var(--forest); padding:70px 0;
   }
   .tools-head{
     max-width:680px; margin:0 auto 50px; padding:0 8vw; text-align:center;
@@ -370,7 +375,7 @@
   @media(max-width:680px){.brand-grid{grid-template-columns:1fr;}}
 
   /* ---------- Personal brand ---------- */
-  .personal-head{margin-top:90px;}
+  .personal-head{margin-top:64px;}
   .personal-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:26px;}
   .personal-card{
     background:var(--white); border-radius:22px; padding:34px; border:1px solid var(--line);
@@ -1010,9 +1015,13 @@
   const navList = document.getElementById('navList');
   menuToggle.addEventListener('click', function(){
     navList.classList.toggle('open');
+    menuToggle.classList.toggle('open');
   });
   navList.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){ navList.classList.remove('open'); });
+    a.addEventListener('click', function(){
+      navList.classList.remove('open');
+      menuToggle.classList.remove('open');
+    });
   });
 
   /* ---------- Scroll reveal ---------- */
